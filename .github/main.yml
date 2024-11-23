@@ -1,0 +1,52 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: gradle:7.3.3-jdk17-alpine
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run tests
+        run: infra/01-test.sh
+
+  build_and_upload_image:
+    runs-on: ubuntu-latest
+    needs: test
+    services:
+      docker:
+        image: docker:24.0.5-dind
+        options: --privileged
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Docker login setup
+        run: infra/00-docker-setup.sh
+      - name: Build Docker image
+        run: infra/02-build_image.sh
+      - name: Push Docker image
+        run: infra/03-upload_image.sh
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_upload_image
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up SSH
+        run: infra/00-ssh-setup.sh
+      - name: Deploy application
+        run: infra/04-deploy.sh
