@@ -1,6 +1,6 @@
 #!/bin/sh
 # SSH into the server, login to Docker, pull the image, and run it
-ssh -v -i "$SSH_PRIVATE_KEY" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/known_hosts "$SERVER_USER@$SERVER_DNS_OR_IP" << EOF
+ssh -v -i /tmp/ec2-remote-login-key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/tmp/known_hosts "$SERVER_USER@$SERVER_DNS_OR_IP" << EOF
   echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
   docker pull "${IMAGE_TAG}${GITHUB_SHA}"
   docker stop $CONTAINER_NAME || true  # Stop any running instance
