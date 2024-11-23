@@ -46,6 +46,9 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
       - name: Push Docker image
         run: infra/03-upload_image.sh
+        env:
+          IMAGE_TAG: ${{ secrets.DOCKER_HUB_USERNAME }}/g15n-2
+          GITHUB_SHA: ${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
