@@ -4,7 +4,7 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 # Install SSH client
-apk add --no-cache openssh-client
+apt-get add --no-cache openssh-client
 
 # Add the private SSH key from the GitLab variable to the SSH agent
 echo "$SSH_PRIVATE_KEY" > /tmp/ec2-remote-login-key.pem
