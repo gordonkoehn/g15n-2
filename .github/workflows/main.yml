@@ -63,3 +63,10 @@ jobs:
           SERVER_DNS_OR_IP: ${{ secrets.SERVER_DNS_OR_IP }}
       - name: Deploy application
         run: infra/04-deploy.sh
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          SERVER_DNS_OR_IP: ${{ secrets.SERVER_DNS_OR_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          IMAGE_TAG: ${{ secrets.DOCKER_HUB_USERNAME }}/g15n-2
+          GITHUB_SHA: ${{ github.sha }}
