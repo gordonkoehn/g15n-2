@@ -12,4 +12,4 @@ echo "$SSH_PRIVATE_KEY" > /tmp/ec2-remote-login-key.pem
 chmod 600 /tmp/ec2-remote-login-key.pem # Restrict permissions
 
 # Add server to known hosts to prevent interactive prompts
-ssh-keyscan -H "$SERVER_DNS_OR_IP" >> /tmp/known_hosts 2>/dev/null
+ssh-keyscan -t ed25519 -H "$SERVER_DNS_OR_IP" >> /tmp/known_hosts 2>/dev/null
