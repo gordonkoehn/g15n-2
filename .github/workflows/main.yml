@@ -66,24 +66,3 @@ jobs:
               sudo docker stop ${{ secrets.CONTAINER_NAME }} || true  # Stop any running instance
               sudo docker rm ${{ secrets.CONTAINER_NAME }}  || true    # Remove stopped instance
               sudo docker run -d --name ${{ secrets.CONTAINER_NAME }} -p 80:8080 "${{ secrets.DOCKER_HUB_USERNAME }}/g15n-2${{ github.sha }}"
-
-  # deploy_2:
-  #   runs-on: ubuntu-latest
-  #   needs: build_and_upload_image
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-  #     - name: Set up SSH
-  #       run: infra/00-ssh-setup.sh
-  #       env:
-  #         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  #         SERVER_DNS_OR_IP: ${{ secrets.SERVER_DNS_OR_IP }}
-  #     - name: Deploy application
-  #       run: infra/04-deploy.sh
-  #       env:
-  #         DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-  #         SERVER_DNS_OR_IP: ${{ secrets.SERVER_DNS_OR_IP }}
-  #         SERVER_USER: ${{ secrets.SERVER_USER }}
-  #         IMAGE_TAG: ${{ secrets.DOCKER_HUB_USERNAME }}/g15n-2
-  #         GITHUB_SHA: ${{ github.sha }}
