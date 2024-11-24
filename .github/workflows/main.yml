@@ -60,7 +60,6 @@ jobs:
           host: ${{ secrets.SERVER_DNS_OR_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.PORT }}
           script: |
             whoami
             ls -al
